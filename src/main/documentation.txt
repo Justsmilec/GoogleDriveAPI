@@ -1,0 +1,4 @@
+###
+When we want to use Drive API to do something, we first need to get some credentials from Google for having the right to access Google Drive.
+
+#--     The first credentials is the credentials for my application or java script. https://console.cloud.google.com/apis/dashboard?pli=1
