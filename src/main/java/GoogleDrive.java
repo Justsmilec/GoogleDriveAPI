@@ -55,9 +55,17 @@ public class GoogleDrive {
 
         Credential credential = getCredentials(HTTP_TRANSPORT);
 
+<<<<<<< HEAD
         Drive service = new Drive.Builder(HTTP_TRANSPORT, JSON_FACTORY, credential) //
                 .setApplicationName(APPLICATION_NAME).build();
 
+=======
+
+        Drive service = new Drive.Builder(HTTP_TRANSPORT, JSON_FACTORY, credential) //
+                .setApplicationName(APPLICATION_NAME).build();
+
+
+>>>>>>> 0c15d6344c8e2276a36c8f128c6de01774ba59fd
         oFilesList = new ArrayList<>();
         retrieveAllFilesOnDirectory(service,"1IMTJ_CvA0LBrW4zKrsu6Ho28wEMsmqgx",oFilesList);
     }
@@ -66,7 +74,8 @@ public class GoogleDrive {
 
         FileList result = service.files().list()
                 //.setQ("'root' in parents and trashed = false") this gets all files inside root, if you want to change root to a folder then set folderId instead of root
-                .setQ("'" + folderId + "' in parents and trashed = false")
+                .setQ("'" + folderId + "' in parents  and trashed = false")
+//                and mimeType = 'application/vnd.google-apps.folder'
                 .setFields("nextPageToken, files(*)")
                 .execute();
 
@@ -81,9 +90,7 @@ public class GoogleDrive {
                     System.out.printf("%s (%s)\n", file.getName(), file.getId());
                 }
                 retrieveAllFilesOnDirectory(service,file.getId(),list);
-
         }
-
     }
 
 
