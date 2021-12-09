@@ -55,17 +55,11 @@ public class GoogleDrive {
 
         Credential credential = getCredentials(HTTP_TRANSPORT);
 
-<<<<<<< HEAD
-        Drive service = new Drive.Builder(HTTP_TRANSPORT, JSON_FACTORY, credential) //
-                .setApplicationName(APPLICATION_NAME).build();
-
-=======
-
         Drive service = new Drive.Builder(HTTP_TRANSPORT, JSON_FACTORY, credential) //
                 .setApplicationName(APPLICATION_NAME).build();
 
 
->>>>>>> 0c15d6344c8e2276a36c8f128c6de01774ba59fd
+
         oFilesList = new ArrayList<>();
         retrieveAllFilesOnDirectory(service,"1IMTJ_CvA0LBrW4zKrsu6Ho28wEMsmqgx",oFilesList);
     }
