@@ -44,7 +44,6 @@ public class GoogleDrive {
     public static void main(String... args) throws IOException, GeneralSecurityException {
         System.out.println("CREDENTIALS_FOLDER: " + CREDENTIALS_FOLDER.getAbsolutePath());
 
-        // 1: Create CREDENTIALS_FOLDER
         if (!CREDENTIALS_FOLDER.exists()) {
             CREDENTIALS_FOLDER.mkdirs();
 
@@ -53,25 +52,15 @@ public class GoogleDrive {
             return;
         }
 
-        // 2: Build a new authorized API client service.
         final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
 
-        // 3: Read client_secret.json file & create Credential object.
         Credential credential = getCredentials(HTTP_TRANSPORT);
 
-        // 5: Create Google Drive Service.
+
         Drive service = new Drive.Builder(HTTP_TRANSPORT, JSON_FACTORY, credential) //
                 .setApplicationName(APPLICATION_NAME).build();
 
-        // Print the names and IDs for up to 10 files.
-//        FileList result = service.files().list().setPageSize(10).setFields("nextPageToken, files(id, name)").execute();
 
-        // List files inside a directory
-//        FileList result = service.files().list()
-//                //.setQ("'root' in parents and trashed = false") this gets all files inside root, if you want to change root to a folder then set folderId instead of root
-//                .setQ("'1wx-82gPxmwsbcqk1ymBk3NkNW7r5XkOb' in parents and trashed = false")
-//                .setFields("nextPageToken, files(id, name, mimeType)")
-//                .execute();
         oFilesList = new ArrayList<>();
         retrieveAllFilesOnDirectory(service,"1IMTJ_CvA0LBrW4zKrsu6Ho28wEMsmqgx",oFilesList);
     }
@@ -80,7 +69,8 @@ public class GoogleDrive {
 
         FileList result = service.files().list()
                 //.setQ("'root' in parents and trashed = false") this gets all files inside root, if you want to change root to a folder then set folderId instead of root
-                .setQ("'" + folderId + "' in parents and trashed = false")
+                .setQ("'" + folderId + "' in parents  and trashed = false")
+//                and mimeType = 'application/vnd.google-apps.folder'
                 .setFields("nextPageToken, files(*)")
                 .execute();
 
@@ -95,9 +85,7 @@ public class GoogleDrive {
                     System.out.printf("%s (%s)\n", file.getName(), file.getId());
                 }
                 retrieveAllFilesOnDirectory(service,file.getId(),list);
-
         }
-
     }
 
 
