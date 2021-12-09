@@ -21,11 +21,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+
+/*
+    This command-line app makes requests to the Drive API
+ */
 public class GoogleDrive {
 
-    /*
-        This command-line app makes requests to the Drive API
-     */
 
     private static final String APPLICATION_NAME = "GoogleDrive";
     private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
@@ -39,12 +40,9 @@ public class GoogleDrive {
     private static List<File> oFilesList;
 
 
-
-
     public static void main(String... args) throws IOException, GeneralSecurityException {
         System.out.println("CREDENTIALS_FOLDER: " + CREDENTIALS_FOLDER.getAbsolutePath());
 
-        // 1: Create CREDENTIALS_FOLDER
         if (!CREDENTIALS_FOLDER.exists()) {
             CREDENTIALS_FOLDER.mkdirs();
 
@@ -53,25 +51,13 @@ public class GoogleDrive {
             return;
         }
 
-        // 2: Build a new authorized API client service.
         final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
 
-        // 3: Read client_secret.json file & create Credential object.
         Credential credential = getCredentials(HTTP_TRANSPORT);
 
-        // 5: Create Google Drive Service.
         Drive service = new Drive.Builder(HTTP_TRANSPORT, JSON_FACTORY, credential) //
                 .setApplicationName(APPLICATION_NAME).build();
 
-        // Print the names and IDs for up to 10 files.
-//        FileList result = service.files().list().setPageSize(10).setFields("nextPageToken, files(id, name)").execute();
-
-        // List files inside a directory
-//        FileList result = service.files().list()
-//                //.setQ("'root' in parents and trashed = false") this gets all files inside root, if you want to change root to a folder then set folderId instead of root
-//                .setQ("'1wx-82gPxmwsbcqk1ymBk3NkNW7r5XkOb' in parents and trashed = false")
-//                .setFields("nextPageToken, files(id, name, mimeType)")
-//                .execute();
         oFilesList = new ArrayList<>();
         retrieveAllFilesOnDirectory(service,"1IMTJ_CvA0LBrW4zKrsu6Ho28wEMsmqgx",oFilesList);
     }
